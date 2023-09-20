@@ -43,15 +43,17 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
 private:
-    juce::dsp::StateVariableFilter::Filter<float> _filter;
+    using filter_type = juce::dsp::StateVariableFilter::Filter<float>;
+    using state_type = juce::dsp::StateVariableFilter::Parameters<float>;
+    juce::dsp::ProcessorDuplicator<filter_type, state_type> _filters;
     // juce::SmoothedValue<float> _freq;
     // juce::SmoothedValue<float> _reso;
     juce::AudioSampleBuffer _buffer;
-    
+
     juce::AudioParameterFloat * _freqParam = nullptr;
     juce::AudioParameterFloat * _resoParam = nullptr;
     juce::AudioProcessorValueTreeState _apvts;
-    
+
 private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessor)

@@ -152,7 +152,7 @@ void AudioPluginAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
     spec.maximumBlockSize = (juce::uint32)samplesPerBlock;
     spec.numChannels = (juce::uint32)getTotalNumOutputChannels();
     spec.sampleRate = sampleRate;
-    _filter.prepare(spec);
+    _filters.prepare(spec);
     
     _buffer.setSize(getTotalNumOutputChannels(), samplesPerBlock);
 }
@@ -210,14 +210,14 @@ void AudioPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         _buffer.copyFrom(i, 0, buffer, i, 0, length);
     }
     
-    _filter.parameters->setCutOffFrequency(getSampleRate(),
-                                           _freqParam->get(),
-                                           _resoParam->get()
-                                           );
+    _filters.state->setCutOffFrequency(getSampleRate(),
+                                       _freqParam->get(),
+                                       _resoParam->get()
+                                       );
     
     juce::dsp::AudioBlock<float> block(_buffer);
     juce::dsp::ProcessContextReplacing<float> ctx(block);
-    _filter.process(ctx);
+    _filters.process(ctx);
     
     for (auto i = 0; i < totalNumOutputChannels; ++i) {
         buffer.copyFrom(i, 0, _buffer, i, 0, length);
