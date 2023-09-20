@@ -1,5 +1,4 @@
 #include "PluginProcessor.h"
-#include "PluginEditor.h"
 
 namespace ParamIDs {
 juce::String kFreq = "frequency";
