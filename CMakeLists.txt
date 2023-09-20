@@ -64,8 +64,6 @@ juce_generate_juce_header(${TARGET_NAME})
 # CMake command.
 
 set(SOURCES
-    src/PluginEditor.h
-    src/PluginEditor.cpp
     src/PluginProcessor.h
     src/PluginProcessor.cpp
     )
